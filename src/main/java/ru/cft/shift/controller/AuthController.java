@@ -30,14 +30,9 @@ public class AuthController {
             @RequestParam(name = "password") String password,
             @RequestParam(name = "surname") String surname,
             @RequestParam(name = "name") String name,
-            @RequestParam(name = "patronymic") String patronymic,
-            @RequestParam(name = "passportSeries", required = false) String passportSeries,
-            @RequestParam(name = "passportNumber", required = false) String passportNumber
+            @RequestParam(name = "patronymic") String patronymic
     ) throws
-            EmailAlreadyRegisteredException,
-            SmallAgeException,
-            IncorrectPassportException,
-            PassportAlreadyRegisteredException
+            EmailAlreadyRegisteredException
     {
         return ResponseEntity.ok(
                 userService.createUser(
@@ -45,9 +40,7 @@ public class AuthController {
                         BcryptGenerator.passwordEncoder(password),
                         surname,
                         name,
-                        patronymic,
-                        passportSeries,
-                        passportNumber));
+                        patronymic));
     }
 
     @PostMapping("/sing-out")

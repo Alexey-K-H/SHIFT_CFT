@@ -8,7 +8,6 @@ public class BcryptGenerator {
         return passwordEncoder.encode(password);
     }
 
-
     public static Boolean passwordDecoder(String currentPassword, String ExistingPassword) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(currentPassword, ExistingPassword);
