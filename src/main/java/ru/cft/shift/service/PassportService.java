@@ -10,7 +10,6 @@ import ru.cft.shift.exception.SmallAgeException;
 import ru.cft.shift.exception.UserNotFoundException;
 import ru.cft.shift.repository.PassportRepository;
 import ru.cft.shift.repository.UserRepository;
-import ru.cft.shift.utils.PassportChecker;
 import ru.cft.shift.utils.SecurityContextHelper;
 
 import javax.transaction.Transactional;
@@ -26,8 +25,8 @@ public class PassportService {
             throws PassportAlreadyRegisteredException, SmallAgeException, IncorrectPassportException, UserNotFoundException {
         checkIsPassportDataFree(series, number);
 
-        PassportChecker.checkUserAge(series, number);
-        PassportChecker.checkPassportDataExist(series, number);
+        checkUserAge(series, number);
+        checkPassportDataExist(series, number);
 
         UserEntity user = userRepository.findByEmail(SecurityContextHelper.email()).orElse(null);
 
@@ -54,5 +53,13 @@ public class PassportService {
         if(passportRepository.existsBySeriesAndNumber(series, number)){
             throw new PassportAlreadyRegisteredException();
         }
+    }
+
+    private void checkUserAge(String series, String number) throws SmallAgeException {
+        //TODO:how exactly we should check this?
+    }
+
+    private void checkPassportDataExist(String series, String number) throws IncorrectPassportException {
+        //TODO:how exactly we should check k this?
     }
 }
