@@ -5,10 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.cft.shift.domain.UserInfo;
 import ru.cft.shift.dto.UserDTO;
 import ru.cft.shift.entity.UserEntity;
 import ru.cft.shift.exception.*;
@@ -26,21 +24,12 @@ public class AuthController {
 
     @PostMapping("/sing-up")
     public ResponseEntity<UserDTO> register(
-            @RequestParam(name = "email") String email,
-            @RequestParam(name = "password") String password,
-            @RequestParam(name = "surname") String surname,
-            @RequestParam(name = "name") String name,
-            @RequestParam(name = "patronymic") String patronymic
-    ) throws
+            @RequestBody UserInfo userInfo
+            ) throws
             EmailAlreadyRegisteredException
     {
         return ResponseEntity.ok(
-                userService.createUser(
-                        email,
-                        BcryptGenerator.passwordEncoder(password),
-                        surname,
-                        name,
-                        patronymic));
+                userService.createUser(userInfo));
     }
 
     @PostMapping("/sing-out")
