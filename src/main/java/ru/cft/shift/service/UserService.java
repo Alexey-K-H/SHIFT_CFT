@@ -30,7 +30,7 @@ public class UserService {
 
         UserEntity user = new UserEntity(
                 userInfo.getEmail(),
-                BcryptGenerator.passwordEncoder(userInfo.getPassword()),
+                BcryptGenerator.encode(userInfo.getPassword()),
                 userInfo.getSurname(),
                 userInfo.getName(),
                 userInfo.getPatronymic());

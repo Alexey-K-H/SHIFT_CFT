@@ -51,7 +51,7 @@ public class AuthController {
 
         String existingPassword = user.getPassword();
 
-        if(!BcryptGenerator.passwordDecoder(password, existingPassword)){
+        if(!BcryptGenerator.decode(password, existingPassword)){
             throw new IncorrectLoginOrPasswordException();
         }
 
