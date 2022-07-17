@@ -2,11 +2,13 @@ package ru.cft.shift.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.cft.shift.domain.UserInfo;
 import ru.cft.shift.dto.UserDTO;
 import ru.cft.shift.entity.BalanceEntity;
 import ru.cft.shift.entity.UserEntity;
 import ru.cft.shift.exception.EmailAlreadyRegisteredException;
 import ru.cft.shift.repository.UserRepository;
+import ru.cft.shift.utils.BcryptGenerator;
 import ru.cft.shift.utils.SecurityContextHelper;
 
 import javax.transaction.Transactional;
@@ -20,16 +22,19 @@ public class UserService {
 
     @Transactional
     public UserDTO createUser(
-            String email,
-            String password,
-            String surname,
-            String name,
-            String patronymic)
+            UserInfo userInfo)
             throws
             EmailAlreadyRegisteredException
     {
-        checkEmailIsFree(email);
-        UserEntity user = new UserEntity(email, password, surname, name, patronymic);
+        checkEmailIsFree(userInfo.getEmail());
+
+        UserEntity user = new UserEntity(
+                userInfo.getEmail(),
+                BcryptGenerator.passwordEncoder(userInfo.getPassword()),
+                userInfo.getSurname(),
+                userInfo.getName(),
+                userInfo.getPatronymic());
+
         userRepository.save(user);
 
         BalanceEntity balance = new BalanceEntity()
